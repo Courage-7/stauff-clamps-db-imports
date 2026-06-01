@@ -13,11 +13,12 @@ Convert STAUFF clamps Excel workbooks into SQL import bundles for Postgres/Supab
 ```
 ├── data/                      # Source Excel workbooks
 ├── scripts/                   # Python import generators
-│   ├── import_stauff_clamps.py          # Main importer (7-table bundle)
-│   └── generate_page44_weld_plate_sql.py # Page 44 specialized importer
+│   ├── clamps_inserts.py                # Main importer (7-table bundle)
+│   └── weld_plates_inserts.py           # Page 44 specialized importer
 ├── db/                        # Generated SQL (git-tracked)
 │   ├── stauff_clamps_schema.sql         # Table definitions
-│   ├── stauff_clamps_data.sql           # Generated data inserts
+│   ├── clamps_data.sql                  # Generated data inserts (pages 45-53)
+│   ├── weld_plates_data.sql             # Generated weld plate inserts (page 44)
 │   └── validate_stauff_clamps.sql       # Row count validation
 ├── requirements.txt           # Python dependencies
 ├── README.md
@@ -69,23 +70,23 @@ Each table includes source metadata for audit trails:
 Run the importer from the project root:
 
 ```powershell
-python scripts/import_stauff_clamps.py
+python scripts/clamps_inserts.py
 ```
 
-This generates `db/stauff_clamps_data.sql` with INSERT statements.
+This generates `db/clamps_data.sql` with INSERT statements.
 
 **Dry-run mode** (validate parsing without writing SQL):
 ```powershell
-python scripts/import_stauff_clamps.py --dry-run
+python scripts/clamps_inserts.py --dry-run
 ```
 
 ### Generate SQL for Page 44 (Weld Plates)
 
 ```powershell
-python scripts/generate_page44_weld_plate_sql.py
+python scripts/weld_plates_inserts.py
 ```
 
-Generates `db/page44_weld_plate_data.sql` (200 weld plate rows).
+Generates `db/weld_plates_data.sql` (200 weld plate rows).
 
 ## Import Into Postgres/Supabase
 
@@ -159,8 +160,8 @@ drop schema if exists stauff_clamps cascade;
 
 | Script | Purpose | Input | Output |
 |--------|---------|-------|--------|
-| `import_stauff_clamps.py` | Parse main workbook (pages 45-53) | `data/*.xlsx` | `db/stauff_clamps_data.sql` |
-| `generate_page44_weld_plate_sql.py` | Parse page 44 weld plates | `data/*.xlsx` | `db/page44_weld_plate_data.sql` |
+| `clamps_inserts.py` | Parse main workbook (pages 45-53) | `data/*.xlsx` | `db/clamps_data.sql` |
+| `weld_plates_inserts.py` | Parse page 44 weld plates | `data/*.xlsx` | `db/weld_plates_data.sql` |
 
 ### Adding New Workbooks
 
