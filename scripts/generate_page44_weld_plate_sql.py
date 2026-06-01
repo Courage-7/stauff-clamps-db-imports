@@ -10,7 +10,7 @@ import openpyxl
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKBOOK_PATH = Path.home() / "Downloads" / "!STAUFF_page44_ordering_codes(Ordering Codes).xlsx"
+WORKBOOK_PATH = ROOT / "data" / "!STAUFF_page44_ordering_codes(Ordering Codes).xlsx"
 OUTPUT_PATH = ROOT / "db" / "page44_weld_plate_data.sql"
 
 TABLE_NAME = 'stauff_clamps."Weld Plate for Single Clamps (SPAL) and Double Clamps (SPAS)"'

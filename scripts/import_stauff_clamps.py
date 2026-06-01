@@ -16,7 +16,7 @@ import openpyxl
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_WORKBOOK = ROOT / "STAUFF_pages_45_50_51_52_53_ordering_codes - Copy.xlsx"
+DEFAULT_WORKBOOK = ROOT / "data" / "STAUFF_pages_45_50_51_52_53_ordering_codes - Copy.xlsx"
 DEFAULT_OUTPUT = ROOT / "db" / "stauff_clamps_data.sql"
 
 COMMON_COLUMNS = [

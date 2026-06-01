@@ -1,8 +1,11 @@
 # STAUFF Clamps Database Import
 
-This folder contains a local Postgres/Supabase import bundle for the workbook:
+This folder contains a local Postgres/Supabase import bundle for the STAUFF clamps workbooks.
 
-`STAUFF_pages_45_50_51_52_53_ordering_codes - Copy.xlsx`
+**Project structure:**
+- `data/` — Source Excel workbooks
+- `scripts/` — Python importers
+- `db/` — Generated SQL files and schema definitions
 
 The database design is intentionally limited to **7 physical tables**: one table per workbook sheet. Tables are named from the workbook/overview catalogue labels.
 
