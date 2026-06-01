@@ -20,9 +20,6 @@ DEFAULT_WORKBOOK = ROOT / "data" / "STAUFF_pages_45_50_51_52_53_ordering_codes -
 DEFAULT_OUTPUT = ROOT / "db" / "clamps_data.sql"
 
 COMMON_COLUMNS = [
-    "source_file",
-    "source_sheet",
-    "source_row",
     "catalogue_page_title",
     "catalogue_name",
     "permutation_summary",
@@ -145,8 +142,6 @@ def build_rows(workbook_path: Path) -> dict[str, list[dict[str, str | None]]]:
         ws = wb[sheet_name]
         metadata = config["metadata"]
         base_values = {
-            "source_file": workbook_path.name,
-            "source_sheet": sheet_name,
             "catalogue_page_title": first_cell_text(ws, metadata["title"]),
             "catalogue_name": first_cell_text(ws, metadata["name"]),
             "permutation_summary": first_cell_text(ws, metadata["permutations"]),
@@ -167,7 +162,6 @@ def build_rows(workbook_path: Path) -> dict[str, list[dict[str, str | None]]]:
                 continue
 
             record = dict(base_values)
-            record["source_row"] = str(row_number)
             for index, column_name in enumerate(config["source_columns"]):
                 record[column_name] = to_text(row[index] if index < len(row) else None)
             rows.append(record)

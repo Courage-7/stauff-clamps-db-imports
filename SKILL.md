@@ -1,5 +1,5 @@
 ---
-name: stauff-clamps-supabase
+name: stauff
 description: Use when working in this project on STAUFF Clamps Excel workbooks, Supabase SQL files, catalogue overview rows, quoted catalogue table names, or workbook-to-Postgres imports.
 ---
 
@@ -23,14 +23,14 @@ This project turns STAUFF catalogue Excel workbooks into Supabase/Postgres SQL u
 
 - Main workbook bundle:
   - `db/stauff_clamps_schema.sql`
-  - `db/stauff_clamps_data.sql`
+  - `db/clamps_data.sql`
   - `db/validate_stauff_clamps.sql`
-  - `scripts/import_stauff_clamps.py`
+  - `scripts/clamps_inserts.py`
 - Page 44 bundle:
   - `db/page44_weld_plate_schema.sql`
-  - `db/page44_weld_plate_data.sql`
+  - `db/weld_plates_data.sql`
   - `db/validate_page44_weld_plate.sql`
-  - `scripts/generate_page44_weld_plate_sql.py`
+  - `scripts/weld_plates_inserts.py`
 - Utility SQL:
   - `db/list_stauff_clamps_tables.sql`
   - `db/drop_stauff_clamps_tables.sql`
