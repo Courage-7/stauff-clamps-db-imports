@@ -25,6 +25,12 @@ from psycopg2 import sql
 # Load environment variables
 load_dotenv()
 
+METADATA_SQL_PATH = (
+    Path(__file__).resolve().parent.parent
+    / "db"
+    / "create_stauff_clamps_catalogue_metadata.sql"
+)
+
 
 class SupabaseTableExporter:
     def __init__(self):
@@ -108,6 +114,28 @@ class SupabaseTableExporter:
                 return True
         except Exception as e:
             print(f"❌ Error exporting to CSV: {e}")
+            return False
+
+    def refresh_catalogue_metadata(self) -> bool:
+        """Create and refresh the STAUFF catalogue metadata table."""
+        print("\n" + "=" * 70)
+        print("REFRESHING STAUFF CATALOGUE METADATA")
+        print("=" * 70)
+
+        if not METADATA_SQL_PATH.exists():
+            print(f"Metadata SQL file not found: {METADATA_SQL_PATH}")
+            return False
+
+        try:
+            metadata_sql = METADATA_SQL_PATH.read_text(encoding="utf-8")
+            with self.connection.cursor() as cursor:
+                cursor.execute(metadata_sql)
+            self.connection.commit()
+            print('Refreshed public."STAUFF Clamps Catalogue Metadata"')
+            return True
+        except Exception as e:
+            self.connection.rollback()
+            print(f"Error refreshing catalogue metadata: {e}")
             return False
 
     def export_table_to_json(self, schema: str, table: str, output_file: str) -> bool:
@@ -194,6 +222,11 @@ class SupabaseTableExporter:
 
         if not self.connect():
             print("\n❌ Could not connect to database")
+            return False
+
+        if not self.refresh_catalogue_metadata():
+            print("\nCould not refresh catalogue metadata")
+            self.close()
             return False
 
         # Export all public tables as CSV
